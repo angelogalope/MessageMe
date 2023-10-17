@@ -1,17 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Lobby from './components/Lobby'
+import React from 'react';
+import { BrowserRouter as Routers, Routes, Route } from "react-router-dom";
+import Lobby from './components/Lobby';
+import Chatroom from './components/Chatroom';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <Lobby />
-     
-    </>
-  )
+    <Routers>
+      <Routes>
+      <Route path="/" element={<Lobby />} />
+      <Route path="/chatroom" element={<Chatroom />} />
+      </Routes>
+    </Routers>
+  </>
+  );
 }
 
-export default App
+export default App;
