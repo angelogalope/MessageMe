@@ -17,13 +17,38 @@ function createWindow() {
       contextIsolation: false
     },
   });
+
+  const secWindow = new BrowserWindow({
+    width: 780,
+    height: 780,
+    autoHideMenuBar: true,
+    resizable: false,
+    frame: true,
+    icon: path.join(__dirname, './public/images/MessageMeLogo.png'),
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: false
+    },
+  });
  
   mainWindow.webContents.setWindowOpenHandler((edata) => {
     shell.openExternal(edata.url);
     return { action: "deny" };
   });
+
+  secWindow.webContents.setWindowOpenHandler((edata) => {
+    shell.openExternal(edata.url);
+    return { action: "deny" };
+  });
  
   mainWindow.loadURL(
+    isDev
+      ? 'http://localhost:3000'
+      : `file://${path.join(__dirname, '../dist/index.html')}`
+  );
+
+  secWindow.loadURL(
     isDev
       ? 'http://localhost:3000'
       : `file://${path.join(__dirname, '../dist/index.html')}`

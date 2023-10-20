@@ -1,11 +1,30 @@
-import { React, useEffect, useRef } from 'react';
+import { React, useEffect, useRef, useState } from 'react';
 import { HiOutlinePaperAirplane } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
-import BubbleMes from '../components/BubbleMes';
-import BubbleRes from '../components/BubbleRes';
  
-function Chatroom() {
+function Chatroom({socket, username, room}) {
+    const [currentMessage, setCurrentMessage] = useState("");
+    const [messageList, setMessageList] = useState([]);
     const containerRef = useRef();
+
+    const sendMessage = async () => {
+        if (currentMessage !== "") {
+            const messageData = {
+                room: room,
+                author: username,
+                message: currentMessage,
+                time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
+            }
+    
+            await socket.emit("send_message", messageData);
+        }
+    };
+
+    useEffect(() => {
+        socket.on("receive_message", (data) => {
+            setMessageList((list) => [...list, data]);
+        });
+    }, []);
 
     const scrollToBottom = () => {
         if (containerRef.current) {
@@ -32,44 +51,15 @@ function Chatroom() {
                             </h1>
                         </Link>
                     </div>
-                    <div className='flex flex-col border border-gray-400 bg-gray-100 rounded-b-md w-[684px] h-[570px] overflow-y-auto' ref={containerRef}>
-                        <div className='flex justify-end'>
-                            <div className='flex flex-col'>
-                                <BubbleMes />
-                            </div>
-                        </div>
-                        <div className='flex justify-start'>
-                            <div className='flex flex-col'>
-                                <BubbleRes />
-                            </div>
-                        </div>
-                        <div className='flex justify-end'>
-                            <div className='flex flex-col'>
-                                <BubbleMes />
-                            </div>
-                        </div>
-                        <div className='flex justify-start'>
-                            <div className='flex flex-col'>
-                                <BubbleRes />
-                            </div>
-                        </div>
-                        <div className='flex justify-end'>
-                            <div className='flex flex-col'>
-                                <BubbleMes />
-                            </div>
-                        </div>
-                        <div className='flex justify-start'>
-                            <div className='flex flex-col'>
-                                <BubbleRes />
-                            </div>
-                        </div>
+                    <div id='message-area' className='flex flex-col border border-gray-400 bg-gray-100 rounded-b-md w-[684px] h-[570px] overflow-y-auto' ref={containerRef}>
+                        {messageList.map((messageContent, index) => {
+                            return <h1 key={index}>{messageContent.message}</h1>
+                        })}
                     </div>
                 </div>
                 <div id='message-container' className='flex'>
-                    <form id='send-container' className='flex flex-row'>
-                    <input type='text' id='message-input' className='border border-gray-400 rounded-l-md w-[582px] text-start p-2'></input>
-                    <button type='submit' id='send-button' className='flex items-center justify-center gap-1 w-[102px] rounded-r-md text-white bg-green-600'>Send<HiOutlinePaperAirplane/></button>
-                    </form>
+                    <input type='text' id='message-input' onChange={(event) => {setCurrentMessage(event.target.value);}} className='border border-gray-400 rounded-l-md w-[582px] text-start p-2'/>
+                    <button onClick={sendMessage} id='send-button' className='flex items-center justify-center gap-1 w-[102px] rounded-r-md text-white bg-green-600'>Send<HiOutlinePaperAirplane/></button>
                 </div>
             </div>
         </div>

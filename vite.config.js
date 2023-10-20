@@ -10,6 +10,9 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss('./tailwind.config.js'),
-    require('autoprefixer'), // Add this line
+    require('autoprefixer'),
   ],
+  optimizeDeps: {
+    include: ['socket.io-client']
+  },
 })
