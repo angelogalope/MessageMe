@@ -5,11 +5,12 @@ const isDev = process.env.IS_DEV == "true" ? true : false;
  
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 750,
-    height: 750,
+    width: 780,
+    height: 780,
     autoHideMenuBar: true,
     resizable: false,
     frame: true,
+    icon: path.join(__dirname, './public/images/MessageMeLogo.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,

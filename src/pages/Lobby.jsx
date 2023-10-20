@@ -8,9 +8,9 @@ function Lobby() {
       <div className="flex flex-col justify-start items-start gap-2">
         <div className='flex flex-col'>  
           <div className='flex items-center gap-1 font-bold text-white w-[684px] p-3 rounded-t-md bg-gray-700'>
-            <div className='flex gap-1'>
-              <BiSolidMessageAltDots size={30} color='white'/>
-              <h1>MessageMe</h1>
+          <div className='flex gap-1 items-center'>
+              <img src="/images/MessageMeLogo.png" className='w-[38px] h-[30px]' alt="MessageMe_logo" />
+              <h1 className='text-xl'>MessageMe</h1>
             </div>
           </div>
           <div className='flex flex-col justify-center border border-gray-400 bg-gray-100 rounded-b-md w-[684px] h-[620px]'>

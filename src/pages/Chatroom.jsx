@@ -1,19 +1,30 @@
-import React from 'react';
+import { React, useEffect, useRef } from 'react';
 import { HiOutlinePaperAirplane } from 'react-icons/hi2';
-import { BiSolidMessageAltDots } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import BubbleMes from '../components/BubbleMes';
 import BubbleRes from '../components/BubbleRes';
  
 function Chatroom() {
+    const containerRef = useRef();
+
+    const scrollToBottom = () => {
+        if (containerRef.current) {
+          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+      };
+
+      useEffect(() => {
+        scrollToBottom();
+      }, []);
+      
     return (
         <div className='flex justify-center p-5'>
             <div className="flex flex-col justify-start items-start gap-2">
                 <div>  
                     <div className='flex items-center justify-between font-bold text-white w-[684px] p-3 rounded-t-md bg-gray-700'>
-                        <div className='flex gap-1'>
-                            <BiSolidMessageAltDots size={30} color='white'/>
-                            <h1>MessageMe</h1>
+                        <div className='flex gap-1 items-center'>
+                            <img src="/images/MessageMeLogo.png" className='w-[38px] h-[30px]' alt="MessageMe_logo" />
+                            <h1 className='text-xl'>MessageMe</h1>
                         </div>
                         <Link to="/" className='flex justify-center items-center rounded-md bg-red-700 w-24'>
                             <h1>
@@ -21,7 +32,7 @@ function Chatroom() {
                             </h1>
                         </Link>
                     </div>
-                    <div className='flex flex-col border border-gray-400 bg-gray-100 rounded-b-md w-[684px] h-[570px] overflow-y-auto'>
+                    <div className='flex flex-col border border-gray-400 bg-gray-100 rounded-b-md w-[684px] h-[570px] overflow-y-auto' ref={containerRef}>
                         <div className='flex justify-end'>
                             <div className='flex flex-col'>
                                 <BubbleMes />
