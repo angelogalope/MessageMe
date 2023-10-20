@@ -22,10 +22,10 @@ function Lobby() {
                 <h1>Username</h1>
                 <div className='flex gap-2'>
                   <input type='text' id='user-input' className='w-[232px] border border-gray-400 rounded-md p-1'></input>
-                  <Link to="/chatroom"> {/* Use Link to navigate to the chatroom */}
-                    <button className='border rounded-md text-white bg-green-700 w-[102px]'>
+                  <Link to="/chatroom" className='flex justify-center items-center border rounded-md text-white bg-green-700 w-[102px]'>
+                    <h1>
                       Join
-                    </button>
+                    </h1>
                   </Link>
                 </div>
               </form>
