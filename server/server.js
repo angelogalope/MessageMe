@@ -20,12 +20,6 @@ io.on("connection", (socket) => {
     socket.on("join_room", (data) => {
         socket.join(data);
         console.log(`User with ID: ${socket.id} joined room: ${data}`);
-
-        socket.to(data.room).emit("receive_message", {
-            author: 'System',
-            user: data.username,
-            time: getCurrentTime(),
-        });
     });
 
     socket.on("send_message", (data) => {
