@@ -22,6 +22,11 @@ io.on("connection", (socket) => {
         console.log(`User with ID: ${socket.id} joined room: ${data}`);
     });
 
+    socket.on('leave_room', (data) => {
+        socket.leave(data.room);
+        console.log(`${data.username} left room ${data.room}`);
+      });
+
     socket.on("send_message", (data) => {
         socket.to(data.room).emit("receive_message", data);
       });

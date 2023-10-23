@@ -7,7 +7,7 @@ function BubbleMes({ text, time }) {
                 <div className='flex justify-end'>
                     <p className='text-xl'>You</p>
                 </div>
-                <div className='max-w-[342px] border rounded-b-2xl rounded-l-2xl text-lg bg-blue-500 text-white w-auto h-auto p-3'>
+                <div className='max-w-[342px] border rounded-b-2xl rounded-l-2xl text-lg bg-bluegreenMain text-white h-auto p-3 wrap' style={{ overflow: 'hidden', whiteSpace: 'normal', wordWrap: 'break-word' }}>
                     <p>{text}</p>
                 </div>
                 <p className='text-sm flex justify-end'>{time}</p>

@@ -5,8 +5,8 @@ const isDev = process.env.IS_DEV == "true" ? true : false;
  
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 780,
-    height: 780,
+    width: 950,
+    height: 695,
     autoHideMenuBar: true,
     resizable: false,
     frame: true,
@@ -19,8 +19,8 @@ function createWindow() {
   });
 
   const secWindow = new BrowserWindow({
-    width: 780,
-    height: 780,
+    width: 950,
+    height: 695,
     autoHideMenuBar: true,
     resizable: false,
     frame: true,
