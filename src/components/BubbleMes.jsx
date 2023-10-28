@@ -10,7 +10,7 @@ function BubbleMes({ text, time }) {
                 <div className='max-w-[342px] border rounded-b-2xl rounded-l-2xl text-lg bg-bluegreenMain text-white h-auto p-3 wrap' style={{ overflow: 'hidden', whiteSpace: 'normal', wordWrap: 'break-word' }}>
                     <p>{text}</p>
                 </div>
-                <p className='text-sm flex justify-end'>{time}</p>
+                <p className='text-sm flex justify-end'>Sent at {time}</p>
             </div>
         </div>
     );

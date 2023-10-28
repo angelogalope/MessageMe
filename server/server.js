@@ -6,6 +6,8 @@ const { Server } = require("socket.io");
 app.use(cors());
 
 const server = http.createServer(app);
+const createdRooms = new Set();
+const roomUsernames = new Map();
 
 const io = new Server(server, {
     cors: {
@@ -17,9 +19,30 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
 
-    socket.on("join_room", (data) => {
-        socket.join(data);
-        console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    socket.on("create_room", (data) => {
+        if (createdRooms.has(data)) {
+            // Room with the same name already exists, send an error response.
+            socket.emit("create_room_response", { success: false, message: "Room already exists" });
+        } else {
+            socket.join(data);
+            createdRooms.add(data);
+            console.log(`User with ID: ${socket.id} created and joined room: ${data}`);
+            console.log(createdRooms);
+    
+            // Room creation successful, send a success response.
+            socket.emit("create_room_response", { success: true, room: data });
+        }
+    });
+
+    socket.on("join_room", (data, callback) => {
+        if (createdRooms.has(data)) {
+            socket.join(data);
+            callback("success");
+            console.log(`User with ID: ${socket.id} joined room: ${data}`);
+        } else {
+            callback("failure");
+            console.log(`User with ID: ${socket.id} attempted to join a non-existent room: ${data}`);
+        }
     });
 
     socket.on('leave_room', (data) => {

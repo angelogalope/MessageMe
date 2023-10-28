@@ -10,7 +10,7 @@ function BubbleRes({ text, username, time }) {
                 <div className='max-w-[342px] border rounded-b-2xl rounded-r-2xl text-lg bg-gray-400 text-white h-auto p-3' style={{ overflow: 'hidden', whiteSpace: 'normal', wordWrap: 'break-word' }}>
                     <p>{text}</p>
                 </div>
-                <p className='text-sm flex justify-start'>{time}</p>
+                <p className='text-sm flex justify-start'>Seen at {time}</p>
             </div>
         </div>
     );
