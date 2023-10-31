@@ -50,12 +50,15 @@ io.on("connection", (socket) => {
     socket.on("join_room", (data, username, callback) => {
         if (createdRooms.has(data)) {
             socket.join(data);
-    
-            if (!roomUsers.has(data)) {
-                roomUsers.set(data, new Set());
+
+            if (roomUsers.get(data).has(username)) {
+                callback("username_exist");
+            } else {
+                if (!roomUsers.has(data)) {
+                    roomUsers.set(data, new Set());
+                }
+                roomUsers.get(data).add(username);
             }
-    
-            roomUsers.get(data).add(username);
             callback("success");
             console.log(`User with ID: ${socket.id} joined room: ${data}`);
         } else {
@@ -75,11 +78,10 @@ io.on("connection", (socket) => {
         if (roomUsers.has(data.room)) {
             roomUsers.get(data.room).delete(data.username);
             const users = Array.from(roomUsers.get(data.room));
-            io.to(data.room).emit("update_online_users", users); // Notify all clients in the room
-    
-            checkAndDeleteEmptyRooms(data.room);
+            io.to(data.room).emit("update_online_users", users);
         }
         socket.leave(data.room);
+        checkAndDeleteEmptyRooms(data.room);
         console.log(`${data.username} left room ${data.room}`);
         console.log("Users left the room: ", roomUsers);
     });
@@ -100,7 +102,6 @@ io.on("connection", (socket) => {
                     const onlineUsers = Array.from(roomUsers.get(room));
                     io.to(room).emit("update_online_users", onlineUsers);
                 }
-    
                 checkAndDeleteEmptyRooms(room);
             }
         });
@@ -110,6 +111,7 @@ io.on("connection", (socket) => {
         const roomSockets = io.sockets.adapter.rooms.get(room);
         if (!roomSockets || roomSockets.size === 0) {
             createdRooms.delete(room);
+            roomUsers.delete(room); // Remove the room from roomUsers
             console.log(`Room ${room} is empty and has been deleted.`);
         }
     }

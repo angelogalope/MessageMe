@@ -32,6 +32,8 @@ function Lobby() {
       socket.emit("join_room", room, username, (response) => {
         if (response === "success") {
           setShowChat(true);
+        } else if (response === "username_exist") {
+          alert("Username already used in this room.");
         } else {
           alert("Room not found or has not been created.");
         }
