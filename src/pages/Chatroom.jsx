@@ -97,7 +97,7 @@ function Chatroom({ socket, username, room }) {
           <div className="w-[292px] h-[666px] border-r bg-gray-800 border-gray-700">
             {/* USER DIV start */}
             <div className="border-b border-gray-700">
-              <div className=" bg-blue-500 rounded-full w-[50px] h-[50px] mx-auto mt-7 flex justify-center items-center text-center text-white text-2xl">
+              <div className=" bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full w-[50px] h-[50px] mx-auto mt-7 flex justify-center items-center text-center text-white text-2xl">
                 <h1>{username.charAt(0).toUpperCase()}</h1>
               </div>
               <h1 className="text-center text-2xl font-semibold pt-2 pb-5 text-white">
@@ -121,7 +121,7 @@ function Chatroom({ socket, username, room }) {
             <div id='online_users' className="flex flex-col bg-gray-800 w-[233px] h-[310px] border-t border-gray-700 overflow-auto scrollbar-track-gray-800 scrollbar-thumb-gray-700 scrollbar-thin">
             {onlineUsers.map((user, index) => (
               <div key={index} class="flex gap-3 px-3">
-                  <div className=" bg-blue-500 rounded-full w-[42px] h-[42px] my-5 ml-8 flex justify-center items-center text-center text-white text-2xl">
+                  <div className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full w-[42px] h-[42px] my-5 ml-8 flex justify-center items-center text-center text-white text-2xl">
                     <h1>{user.charAt(0).toUpperCase()}</h1>
                   </div>
                   <h1 className="col-span-2 mt-7  text-2xl text-white">
