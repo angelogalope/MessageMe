@@ -1,5 +1,6 @@
 import { React, useEffect, useRef, useState } from 'react';
 import { HiOutlinePaperAirplane } from 'react-icons/hi2';
+import { PiPaperPlaneRightFill } from 'react-icons/pi';
 import { BiImageAdd } from 'react-icons/bi';
 import { MdCancel } from 'react-icons/md';
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -82,7 +83,7 @@ function Chatroom({ socket, username, room }) {
 				//bytes = 1mb
 				setImage("");
 				setSelelectedImg("");
-				toast.error("File is too large select another image, 1mb maximum ", {
+				alert("File is too large select another image, 1mb maximum ", {
 					position: "top-center",
 					autoClose: 2000,
 					hideProgressBar: false,
@@ -225,7 +226,7 @@ function Chatroom({ socket, username, room }) {
               id="message-container"
               className="flex justify-center items-center h-[92px] bg-white border-t"
             >
-              <div id="send-container" className="flex flex-row justify-center pl-2 gap-2">
+              <div id="send-container" className="flex flex-row justify-center pl-2">
                 <div className='flex items-center'>
                   <input
                     placeholder='Send message'
@@ -239,9 +240,9 @@ function Chatroom({ socket, username, room }) {
                       }
                     }}
                   />
-                  <label htmlFor="fileInput" className='curser-pointer'>
+                  <label htmlFor="fileInput">
                     <div id='add_image' className='flex items-center justify-center text-white bg-gray-800 h-[50px] w-[56px] rounded-r-[25px]'>
-                      <BiImageAdd size={'30px'}/>
+                      <BiImageAdd size={'30px'} style={{ cursor: "pointer" }}/>
                       <input
                         type="file"
                         accept="image/*"
@@ -257,10 +258,10 @@ function Chatroom({ socket, username, room }) {
                 <button
                   id="send-button"
                   onClick={sendMessage}
-                  className="flex items-center justify-center gap-1 w-[90px] h-[50px] rounded-full m-2 text-white bg-cyan-500 font-bold"
+                  className="flex items-center justify-center gap-1 w-[98px] h-[50px] rounded-full m-2 text-white bg-cyan-500 font-bold text-lg"
                 >
                   Send
-                  <HiOutlinePaperAirplane />
+                  <PiPaperPlaneRightFill size={"22px"}/>
                 </button>
               </div>
             </div>
