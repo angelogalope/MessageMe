@@ -120,7 +120,7 @@ function Chatroom({ socket, username, room }) {
             <div className=' p-2 text-xl font-medium text-white'>
               <h1>Room Name:</h1>
             </div>
-            <div className="flex flex-col bg-gray-800 h-[45px] overflow-auto scrollbar-track-gray-800 scrollbar-thumb-gray-700 scrollbar-thin">
+            <div className="flex flex-col bg-gray-800 h-[45px]">
               <div className='flex flex-col gap-1 justify-between text-white text-lg px-5 '>
                 <h1 className='text-2xl font-medium'>{room}</h1>
               </div>
@@ -161,7 +161,7 @@ function Chatroom({ socket, username, room }) {
               <img src='/images/MessageMeLogo2.png' className='w-[38px] h-[30px] mr-1'/>essageMe
             </div>
             {/* Chatbox start */}
-            <ScrollToBottom id="message_area" className=" h-[504px] bg-white">
+            <ScrollToBottom id="message_area" className=" h-[504px] bg-white overflow-auto scrollbar-track-cyan-400 scrollbar-thumb-gray-500 scrollbar-thin">
               {messageList.map((messageContent, index) => {
                 if (messageContent.author === username) {
                   return <BubbleMes key={index} image={messageContent.image} text={messageContent.message} time={messageContent.time}/>;
