@@ -1,5 +1,7 @@
 import { React, useEffect, useRef, useState } from 'react';
 import { HiOutlinePaperAirplane } from 'react-icons/hi2';
+import { BiImageAdd } from 'react-icons/bi';
+import { MdCancel } from 'react-icons/md';
 import ScrollToBottom from "react-scroll-to-bottom";
 import BubbleMes from '../components/BubbleMes';
 import BubbleRes from '../components/BubbleRes';
@@ -10,6 +12,8 @@ function Chatroom({ socket, username, room }) {
   const [messageList, setMessageList] = useState([]);
   const [isLeave, setIsLeave] = useState(false);
   const [onlineUsers, setOnlineUsers] = useState([username]);
+  const [image, setImage] = useState("");
+	const [selectedImg, setSelelectedImg] = useState("");
 
   useEffect(() => {
     const handleUserJoined = (user) => {
@@ -47,7 +51,7 @@ function Chatroom({ socket, username, room }) {
   }, [socket, room, onlineUsers]);
 
   const sendMessage = async () => {
-    if (currentMessage !== "") {
+    if (currentMessage !== "" || image !== "") {
       const currentTime = new Date(Date.now());
       const hours = currentTime.getHours();
       const minutes = currentTime.getMinutes();
@@ -58,14 +62,57 @@ function Chatroom({ socket, username, room }) {
         room: room,
         author: username,
         message: currentMessage,
+        image: image,
         time: `${formattedHours}:${minutes.toString().padStart(2, '0')} ${ampm}`,
       };
 
       await socket.emit("send_message", messageData);
       setMessageList((list) => [...list, messageData]);
       setCurrentMessage("");
+      setSelelectedImg("");
+			setImage("");
     }
   };
+
+  const handleImageChange = (e) => {
+		e.preventDefault();
+		const file = e.target.files[0];
+		if (file) {
+			if (file.size > 1048576) {
+				//bytes = 1mb
+				setImage("");
+				setSelelectedImg("");
+				toast.error("File is too large select another image, 1mb maximum ", {
+					position: "top-center",
+					autoClose: 2000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "light",
+				});
+				fileInput.value = "";
+			} else {
+				fileInput.value = "";
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				setSelelectedImg(file.name);
+				reader.onload = (e) => {
+					setImage(e.target.result); // Set the image as a data URL
+				};
+			}
+		} else {
+			fileInput.value = "";
+			toast.error("front end errror");
+		}
+	};
+
+  const handleRemoveFile = (e) => {
+		e.preventDefault();
+		setImage("");
+		setSelelectedImg("");
+	};
 
   const leaveChat = () => {
     const leaveData = {
@@ -154,12 +201,24 @@ function Chatroom({ socket, username, room }) {
             <ScrollToBottom id="message_area" className=" h-[504px] bg-white">
               {messageList.map((messageContent, index) => {
                 if (messageContent.author === username) {
-                  return <BubbleMes key={index} text={messageContent.message} time={messageContent.time}/>;
+                  return <BubbleMes key={index} image={messageContent.image} text={messageContent.message} time={messageContent.time}/>;
                 } else {
-                  return <BubbleRes key={index} username={messageContent.author} text={messageContent.message} time={messageContent.time}/>;
+                  return <BubbleRes key={index} image={messageContent.image} username={messageContent.author} text={messageContent.message} time={messageContent.time}/>;
                 }
               })}
             </ScrollToBottom>
+            <div className="absolute bottom-[90px] w-[232px] left-[232px] right-0 p-3">
+							{selectedImg && (
+								<div className="border bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-between p-3">
+									<div className="text-xs text-white">
+										Attached image: {selectedImg}
+									</div>
+									<button onClick={handleRemoveFile} className="text-xs text-red-400">
+										<MdCancel size={22} />
+									</button>
+								</div>
+							)}
+						</div>
             {/* Chatbox end */}
 
             <div
@@ -180,9 +239,20 @@ function Chatroom({ socket, username, room }) {
                       }
                     }}
                   />
-                  <div className='flex items-center justify-center text-white bg-gray-800 h-[50px] w-[56px] rounded-r-[25px]'>
-                    {/* <input type="file"/> */}
-                  </div>
+                  <label htmlFor="fileInput" className='curser-pointer'>
+                    <div id='add_image' className='flex items-center justify-center text-white bg-gray-800 h-[50px] w-[56px] rounded-r-[25px]'>
+                      <BiImageAdd size={'30px'}/>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        id="fileInput"
+                        style={{
+                          display: "none",
+                        }}
+                      />
+                    </div>
+                  </label>
                 </div>
                 <button
                   id="send-button"
