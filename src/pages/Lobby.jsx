@@ -11,7 +11,7 @@ function Lobby() {
 
   const createRoom = () => {
     if (username !== "" && room !== "") {
-      socket.emit("create_room", room);
+      socket.emit("create_room", room, username);
   
       // Listen for the server's response to room creation.
       socket.on("create_room_response", (response) => {
@@ -29,7 +29,7 @@ function Lobby() {
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
-      socket.emit("join_room", room, (response) => {
+      socket.emit("join_room", room, username, (response) => {
         if (response === "success") {
           setShowChat(true);
         } else {
