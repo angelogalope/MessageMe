@@ -79,10 +79,10 @@ function createWindow() {
       : `file://${path.join(__dirname, '../dist/index.html')}`
   );
 
-  // Open the DevTools.
-  if (isDev) {
-    //mainWindow.webContents.openDevTools();
-  }
+  // // Open the DevTools.
+  // if (isDev) {
+  //   //mainWindow.webContents.openDevTools();
+  // }
  
 }
  

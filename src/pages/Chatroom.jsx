@@ -16,39 +16,22 @@ function Chatroom({ socket, username, room }) {
 	const [selectedImg, setSelelectedImg] = useState("");
 
   useEffect(() => {
-    const handleUserJoined = (user) => {
-      setOnlineUsers((users) => [...users, user]);
-    };
-
-    const handleUserLeft = (leftUser) => {
-      setOnlineUsers((users) => users.filter((user) => user !== leftUser)); 
-    };
-
-    const handleCurrentUsers = (users) => {
-      setOnlineUsers(users);
-    };
-
-    socket.emit("all_users", (usernames) => {
-      setOnlineUsers(usernames);
-    });
-
     socket.emit("get_online_users", room, (users) => {
       setOnlineUsers(users);
+    });
+
+    socket.on("receive_message", (data) => {
+      setMessageList((list) => [...list, data]);
     });
 
     socket.on("update_online_users", (users) => {
       setOnlineUsers(users);
     });
 
-    socket.on("user_joined", handleUserJoined);
-    socket.on("user_left", handleUserLeft);
-    socket.on("all_users", handleCurrentUsers);
-
     return () => {
-      socket.off("all_users");
+      socket.off("receive_message");
     };
-
-  }, [socket, room, onlineUsers]);
+  }, [socket, room, username, onlineUsers]);
 
   const sendMessage = async () => {
     if (currentMessage !== "" || image !== "") {
@@ -79,19 +62,9 @@ function Chatroom({ socket, username, room }) {
 		const file = e.target.files[0];
 		if (file) {
 			if (file.size > 1048576) {
-				//bytes = 1mb
 				setImage("");
 				setSelelectedImg("");
-				alert("File is too large select another image, 1mb maximum ", {
-					position: "top-center",
-					autoClose: 2000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "light",
-				});
+				alert("File is too large select another image, 1mb maximum.");
 				fileInput.value = "";
 			} else {
 				fileInput.value = "";
@@ -104,7 +77,7 @@ function Chatroom({ socket, username, room }) {
 			}
 		} else {
 			fileInput.value = "";
-			toast.error("front end errror");
+			alert("front end errror");
 		}
 	};
 
@@ -123,16 +96,6 @@ function Chatroom({ socket, username, room }) {
     socket.emit('leave_room', leaveData);
     setIsLeave(true);
   };
-
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessageList((list) => [...list, data]);
-    });
-
-    return () => {
-      socket.off("receive_message");
-    };
-  }, [socket, username]);
 
 
   return (
@@ -207,7 +170,7 @@ function Chatroom({ socket, username, room }) {
                 }
               })}
             </ScrollToBottom>
-            <div className="absolute bottom-[90px] w-[232px] left-[232px] right-0 p-3">
+            <div className="absolute bottom-[90px] w-auto max-w-[272px] left-[232px] right-0 p-3">
 							{selectedImg && (
 								<div className="border bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-between p-3">
 									<div className="text-xs text-white">
