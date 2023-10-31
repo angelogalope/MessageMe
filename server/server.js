@@ -111,7 +111,7 @@ io.on("connection", (socket) => {
         const roomSockets = io.sockets.adapter.rooms.get(room);
         if (!roomSockets || roomSockets.size === 0) {
             createdRooms.delete(room);
-            roomUsers.delete(room); // Remove the room from roomUsers
+            roomUsers.delete(room);
             console.log(`Room ${room} is empty and has been deleted.`);
         }
     }

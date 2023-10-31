@@ -1,5 +1,4 @@
-import { React, useEffect, useRef, useState } from 'react';
-import { HiOutlinePaperAirplane } from 'react-icons/hi2';
+import { React, useEffect, useState } from 'react';
 import { PiPaperPlaneRightFill } from 'react-icons/pi';
 import { BiImageAdd } from 'react-icons/bi';
 import { MdCancel } from 'react-icons/md';
@@ -100,7 +99,7 @@ function Chatroom({ socket, username, room }) {
 				reader.readAsDataURL(file);
 				setSelelectedImg(file.name);
 				reader.onload = (e) => {
-					setImage(e.target.result); // Set the image as a data URL
+					setImage(e.target.result);
 				};
 			}
 		} else {

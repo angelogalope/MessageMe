@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import io from 'socket.io-client';
 import Chatroom from './Chatroom';
 
@@ -13,15 +13,12 @@ function Lobby() {
     if (username !== "" && room !== "") {
       socket.emit("create_room", room, username);
   
-      // Listen for the server's response to room creation.
       socket.on("create_room_response", (response) => {
         if (response.success) {
           setShowChat(true);
         } else {
-          alert(response.message); // Display the error message from the server.
+          alert(response.message);
         }
-  
-        // Don't forget to remove the response listener if needed.
         socket.off("create_room_response");
       });
     }
