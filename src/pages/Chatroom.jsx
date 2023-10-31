@@ -148,7 +148,7 @@ function Chatroom({ socket, username, room }) {
           {/* Right side column start */}
           <div className='flex flex-col w-[710px]'>
             <div className="flex h-[70px] w-[710px] bg-gradient-to-r from-cyan-500 to-blue-500 text-3xl text-white font-medium items-center p-5">
-              <img src='/images/MessageMeLogo2.png' className='w-[38px] mr-1'/>essageMe
+              <img src='/images/MessageMeLogo2.png' className='w-[38px] h-[30px] mr-1'/>essageMe
             </div>
             {/* Chatbox start */}
             <ScrollToBottom id="message_area" className=" h-[504px] bg-white">
